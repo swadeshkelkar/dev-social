@@ -1,0 +1,3 @@
+# DevSocial
+
+MERN stack application
