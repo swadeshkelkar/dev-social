@@ -11,12 +11,6 @@ import {
   NO_REPOS
 } from './types';
 
-/*
-  NOTE: we don't need a config object for axios as the
- default headers in axios are already Content-Type: application/json
- also axios stringifies and parses JSON for you, so no need for 
- JSON.stringify or JSON.parse
-*/
 
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
@@ -119,98 +113,6 @@ export const createProfile =
       });
     }
   };
-
-// Add Experience
-// export const addExperience = (formData, navigate) => async (dispatch) => {
-//   try {
-//     const res = await api.put('/profile/experience', formData);
-
-//     dispatch({
-//       type: UPDATE_PROFILE,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Experience Added', 'success'));
-
-//     navigate('/dashboard');
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-
-//     if (errors) {
-//       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-//     }
-
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
-// // Add Education
-// export const addEducation = (formData, navigate) => async (dispatch) => {
-//   try {
-//     const res = await api.put('/profile/education', formData);
-
-//     dispatch({
-//       type: UPDATE_PROFILE,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Education Added', 'success'));
-
-//     navigate('/dashboard');
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-
-//     if (errors) {
-//       errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
-//     }
-
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
-// // Delete experience
-// export const deleteExperience = (id) => async (dispatch) => {
-//   try {
-//     const res = await api.delete(`/profile/experience/${id}`);
-
-//     dispatch({
-//       type: UPDATE_PROFILE,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Experience Removed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
-
-// // Delete education
-// export const deleteEducation = (id) => async (dispatch) => {
-//   try {
-//     const res = await api.delete(`/profile/education/${id}`);
-
-//     dispatch({
-//       type: UPDATE_PROFILE,
-//       payload: res.data
-//     });
-
-//     dispatch(setAlert('Education Removed', 'success'));
-//   } catch (err) {
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status }
-//     });
-//   }
-// };
 
 // Delete account & profile
 export const deleteAccount = () => async (dispatch) => {
