@@ -1,8 +1,0 @@
-{
-    "mongoURI": "mongodb://swadesh1:5xKPwwVoXXgW@devsocial-shard-00-00.hithp.mongodb.net:27017,devsocial-shard-00-01.hithp.mongodb.net:27017,devsocial-shard-00-02.hithp.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-xqn2vk-shard-0&authSource=admin&retryWrites=true&w=majority",
-    "jwtSecret": "secrettoken",
-    "githubClientId": "b515ba3fb224189c7de6",
-    "githubSecret": "1f628ec8cc958ae771dc1fb285aaf8117f77c498"
-}
-
-

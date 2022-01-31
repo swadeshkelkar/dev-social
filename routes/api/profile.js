@@ -1,7 +1,6 @@
 const express = require('express');
 const axios = require('axios');
 const request = require('request');
-const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
@@ -12,6 +11,7 @@ const checkObjectId = require('../../middleware/checkObjectId');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
+const getTopRepos = require('../../helpers/getrepos');
 
 // @route    GET api/profile/me
 // @desc     Get current users profile
@@ -19,7 +19,7 @@ const Post = require('../../models/Post');
 router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
-      user: req.user.id
+      user: req.user.id,
     }).populate('user', ['name']);
 
     if (!profile) {
@@ -70,7 +70,7 @@ router.post(
       skills: Array.isArray(skills)
         ? skills
         : skills.split(',').map((skill) => ' ' + skill.trim()),
-      ...rest
+      ...rest,
     };
 
     // Build socialFields object
@@ -121,7 +121,7 @@ router.get(
   async ({ params: { user_id } }, res) => {
     try {
       const profile = await Profile.findOne({
-        user: user_id
+        user: user_id,
       }).populate('user', ['name']);
 
       if (!profile) return res.status(400).json({ msg: 'Profile not found' });
@@ -145,7 +145,7 @@ router.delete('/', auth, async (req, res) => {
     await Promise.all([
       Post.deleteMany({ user: req.user.id }),
       Profile.findOneAndRemove({ user: req.user.id }),
-      User.findOneAndRemove({ _id: req.user.id })
+      User.findOneAndRemove({ _id: req.user.id }),
     ]);
 
     res.json({ msg: 'User deleted' });
@@ -161,13 +161,11 @@ router.delete('/', auth, async (req, res) => {
 router.get('/github/:username', (req, res) => {
   try {
     const options = {
-      uri: encodeURI(`https://api.github.com/users/${
-        req.params.username
-      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
-        'githubClientId'
-      )}&client_secret=${config.get('githubSecret')}`),
+      uri: encodeURI(
+        `https://api.github.com/users/${req.params.username}/repos?per_page=50&sort=created:asc&client_id=${process.env.githubClientId}&client_secret=${process.env.githubSecret}`
+      ),
       method: 'GET',
-      headers: { 'user-agent': 'node.js' }
+      headers: { 'user-agent': 'node.js' },
     };
 
     request(options, (error, response, body) => {
@@ -176,8 +174,9 @@ router.get('/github/:username', (req, res) => {
       if (response.statusCode !== 200) {
         return res.status(404).json({ msg: 'No Github profile found' });
       }
+      let repos = JSON.parse(body);
 
-      res.json(JSON.parse(body));
+      res.json(getTopRepos(repos));
     });
   } catch (err) {
     console.error(err.message);

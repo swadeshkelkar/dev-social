@@ -1,6 +1,13 @@
-const express = require('express');
-const connectDB = require('./config/db');
 const path = require('path');
+//set all variables in our environment file to process.env object.
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config({
+    path: path.resolve(__dirname, 'config', '.env'),
+  });
+}
+
+const express = require('express');
+const connectDB = require('./database/db');
 
 const app = express();
 
