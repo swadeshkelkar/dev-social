@@ -21,12 +21,12 @@ const ProfileTop = ({
       <p>{location ? <span>{location}</span> : null}</p>
       <div className="icons my-1">
         {website ? (
-          <a href={website} target="_blank">
+          <a href={website} target="_blank" rel="noreferrer">
             <i className="fas fa-globe fa-2x" />
           </a>
         ) : null}
         {githubusername ? (
-          <a href={`https://github.com/${githubusername}`} target="_blank">
+          <a href={`https://github.com/${githubusername}`} target="_blank" rel="noreferrer">
             <i className="fa fa-github fa-2x" />
           </a>
         ) : null}
